@@ -29,8 +29,8 @@ public class Cadastro {
 	 * @param data
 	 * @param hora
 	 */
-	public static void registrarHoraTrabalhada(FuncionarioHorista obj, Horas data, Horas hora){
-		obj.setHorasTrabalhada(data, hora);
+	public static void registrarHoraTrabalhada(FuncionarioHorista obj, Horas data, float horas){
+		obj.setHorasTrabalhada(data, horas);
 	}
 	
 	/**
@@ -61,11 +61,11 @@ public class Cadastro {
 			Double horas = 0.0;
 			
 			ArrayList<Horas> listaData = ((FuncionarioHorista)funcionario).getDiasTrabalhads();
-			ArrayList<Horas> listaHoras = ((FuncionarioHorista)funcionario).getHorasTrabalhadas();
+			ArrayList<Float> listaHoras = ((FuncionarioHorista)funcionario).getHorasTrabalhadas();
 			for(Horas data : listaData){
 				if (data.getMes() == mes && data.getAno() == ano){
-					for(Horas hora : listaHoras){
-						horas += ((hora.getHora() *60) + hora.getMinuto()) / 60;
+					for(Float hora : listaHoras){
+						horas += hora;
 					}
 				}
 			}
@@ -135,11 +135,11 @@ public class Cadastro {
 				Funcionario funcionario = listaFuncionarios.get(cpf);
 				
 				ArrayList<Horas> listaDatas = ((FuncionarioHorista)funcionario).getDiasTrabalhads();
-				ArrayList<Horas> listaHoras = ((FuncionarioHorista)funcionario).getHorasTrabalhadas();
+				ArrayList<Float> listaHoras = ((FuncionarioHorista)funcionario).getHorasTrabalhadas();
 				
 				for(int i = 0; i < listaDatas.size(); i++){
 					if (listaDatas.get(i).getMes() == mes && listaDatas.get(i).getAno() == ano){
-						listaAux.add("Data: " + listaDatas.get(i).getDataCompleta() + "\nHoras Completas: " + listaHoras.get(i).getHoraCompleta());
+						listaAux.add("Data: " + listaDatas.get(i).getDataCompleta() + "\nHoras Completas: " + listaHoras.get(i) + "Horas");
 					}
 				}
 				

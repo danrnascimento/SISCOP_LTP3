@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class FuncionarioHorista extends Funcionario{
 	 	
 	private Double valorHora;
-	private ArrayList<Horas> horasTrabalhada = new ArrayList<>();
+	private ArrayList<Float> horasTrabalhada = new ArrayList<>();
 	private ArrayList<Horas> diasTrabalhdados =new ArrayList<>();
 	
 	public FuncionarioHorista(String cpf, String nome, Double valorHora){
@@ -23,12 +23,12 @@ public class FuncionarioHorista extends Funcionario{
 		this.valorHora = valorHora;
 	}
 	
-	public void setHorasTrabalhada(Horas data, Horas hora) {
-		horasTrabalhada.add(hora);
+	public void setHorasTrabalhada(Horas data, float horas) {
+		horasTrabalhada.add(horas);
 		diasTrabalhdados.add(data);
 	}
 	
-	public ArrayList<Horas> getHorasTrabalhadas(){
+	public ArrayList<Float> getHorasTrabalhadas(){
 		return horasTrabalhada;
 	}
 	

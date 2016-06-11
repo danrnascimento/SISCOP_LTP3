@@ -13,6 +13,17 @@ public class Horas {
 	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH) + 1;
 	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
 	
+	public Horas(){
+		
+	}
+	
+	public Horas(int dia, int mes, int ano){
+		this.dia = dia;
+		this.mes = mes;
+		this.ano = ano;
+	}
+	
+	
 	public String getHoraCompleta() {
 		return this.hora + ":" + this.minuto + ":" + this.segundos;
 	}

@@ -10,11 +10,14 @@ public class Usuario {
 	
 	static Scanner leia = new Scanner(System.in);
 	
-	public static void main(String argd[]){
-		
+	public static void main(String argd[]) throws PagtoException{
+		menu();
 	}
-	
-
+		
+	/**
+	 * Funcao para exibir menu 
+	 * @throws PagtoException
+	 */
 	public static void menu() throws PagtoException{
 		int opcao = 0;
 		do{
@@ -23,13 +26,8 @@ public class Usuario {
 					+ "\n\t 1 - INSERIR UM FUNCIONARIO"
 					+ "\n\tHORISTA \n"
 					+ "\n\t 6 - REGISTRAR HORA TRABALHADA"
-					+ "\n\t 7 - ALTERAR UM PRODUTO"
-					+ "\n\t 8 - EXCLUIR UM PRODUTO"
-					+ "\n\t 9 - CONSULTA PRODUTOS PELO NOME \n"
-					+ "\n\tVENDAS \n"
-					+ "\n\t 10 - INSERIR UMA VENDA"
-					+ "\n\t 11 - EXCLUIR UMA VENDA"
-					+ "\n\t 12 - CONSULTA VENDAS POR PERIODO \n"
+					+ "\n\tMENSALISTA \n"
+					+ "\n\t 10 - REGISTRAR FALTA"
 					+ "\n\tESTATISTICAS \n"
 					+ "\n\t 13 - CONSULTA ESTATISTICA DE CLIENTES POR PERIODO"
 					+ "\n\t 14 - CONSULTA ESTATISTICA DE PRODUTOS POR PERIODO"
@@ -53,7 +51,10 @@ public class Usuario {
 				break;
 			case 2:
 				registrarTrabalhoHorista();
-				break;					
+				break;
+			case 3:
+				registrarFaltaMensalista();
+				break;
 			default:
 				System.out.println("Opção Inválida");
 				break;
@@ -84,7 +85,7 @@ public class Usuario {
 				error = true;
 			}
 			
-		}while(error = true);
+		}while(error == true);
 		
 		do{
 			error = false;
@@ -96,7 +97,7 @@ public class Usuario {
 				error = true;
 			}
 			
-		}while(error = true);
+		}while(error == true);
 		
 		do{
 			error = false;
@@ -112,10 +113,10 @@ public class Usuario {
 						error = true;
 					}
 				} catch (Exception e) {
-					System.out.println("Valor Inválido");
+					System.out.println("Opcao Inválida");
 					error = true;
 				}
-			}while(error = true);
+			}while(error == true);
 			
 			switch (opcao) {
 			case 1:
@@ -134,7 +135,7 @@ public class Usuario {
 						System.out.println("Valor Invalido");
 						error = true;
 					}
-				}while(error = true);
+				}while(error == true);
 				
 				funcionario = new FuncionarioHorista(cpf, nome, valorHora);
 				Cadastro.incluirFuncionario(funcionario);
@@ -157,7 +158,7 @@ public class Usuario {
 						System.out.println("Valor Invalido");
 						error = true;
 					}
-				}while(error = true);
+				}while(error == true);
 				
 				funcionario = new FuncionarioMensalista(cpf, nome, salarioFixo);
 				Cadastro.incluirFuncionario(funcionario);
@@ -169,15 +170,140 @@ public class Usuario {
 				break;
 			}
 			
-		}while(error = true);
+		}while(error == true);
 	}
 	
+	/**
+	 * Registrar Horas Trabalhadas para Horistas
+	 * @throws PagtoException
+	 */
 	public static void registrarTrabalhoHorista() throws PagtoException{
 		
 		String cpf;
-		System.out.println("Digite o cpf do Funcionario: ");
+		FuncionarioHorista funcionario = null;
+		boolean error;
 		
+		do{
+			error = false;
+			try {
+				System.out.println("Digite o cpf do Funcionario: ");
+				cpf = Console.readLine();
+				
+				if(cpf.isEmpty() || LtpUtil.validarCPF(cpf)){
+					System.out.println("Conteudo Inválido ou vazio");
+					error = true;
+				}
+				
+				if(Cadastro.listaFuncionarios.get(cpf).getTipo() == 1){
+					funcionario = (FuncionarioHorista) Cadastro.listaFuncionarios.get(cpf);
+				}else{
+					System.out.println("Funcionario nao e ");
+				}
+			} catch (Exception e) {
+				System.out.println("Funcionario não existe ou CPF inválido");
+				error = true;
+			}
+			
+		}while(error == true);
+		
+		do{
+			error = false;
+			
+			int dia,mes,ano;
+			float horas;
+			
+			try {
+				System.out.println("Digite o dia do Registro");
+				dia = Integer.parseInt(leia.nextLine());
+				System.out.println("Digite o mes do Registro");
+				mes = Integer.parseInt(leia.nextLine());
+				System.out.println("Digite o ano do Registro");
+				ano = Integer.parseInt(leia.nextLine());
+				
+				System.out.println("Digite quantas Horas o Funcionario Trabalhou");
+				horas = Float.parseFloat(leia.nextLine());
+				
+				Horas data = new Horas(dia, mes, ano);
+				
+				Cadastro.registrarHoraTrabalhada(funcionario, data, horas);
+				
+			} catch (Exception e) {
+				System.out.println();
+				
+			}
+			
+			
+			
+		}while(error == true);
 		
 		
 	}
+	
+	/**
+	 * Registrar Falta para Mensalista
+	 * @throws PagtoException
+	 */
+	public static void registrarFaltaMensalista() throws PagtoException{
+		
+		String cpf;
+		FuncionarioMensalista funcionario = null;
+		boolean error;
+		
+		do{
+			error = false;
+			try {
+				System.out.println("Digite o cpf do Funcionario: ");
+				cpf = Console.readLine();
+				
+				if(cpf.isEmpty() || LtpUtil.validarCPF(cpf)){
+					System.out.println("Conteudo Inválido ou vazio");
+					error = true;
+				}
+				
+				if(Cadastro.listaFuncionarios.get(cpf).getTipo() == 2){
+					funcionario = (FuncionarioMensalista) Cadastro.listaFuncionarios.get(cpf);
+				}else{
+					System.out.println("Funcionario nao e Mensalista");
+					error = true;
+				}
+			} catch (Exception e) {
+				System.out.println("Funcionario não existe ou CPF inválido");
+				error = true;
+			}
+			
+		}while(error == true);
+		
+		do{
+			error = false;
+			
+			int dia,mes,ano;
+			String motivo;
+			
+			try {
+				System.out.println("Digite o dia do Registro");
+				dia = Integer.parseInt(leia.nextLine());
+				System.out.println("Digite o mes do Registro");
+				mes = Integer.parseInt(leia.nextLine());
+				System.out.println("Digite o ano do Registro");
+				ano = Integer.parseInt(leia.nextLine());
+				
+				System.out.println("Digite o Motivo da Falta");
+				motivo = Console.readLine();
+				
+				Horas data = new Horas(dia, mes, ano);
+				
+				Cadastro.registrarFalta(funcionario, data, motivo);
+				
+			} catch (Exception e) {
+				System.out.println();
+				
+			}
+			
+			
+			
+		}while(error == true);
+		
+		
+	}
+
 }
