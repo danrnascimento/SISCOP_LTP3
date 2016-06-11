@@ -1,6 +1,8 @@
 package dados;
 
-public abstract class Funcionario{
+import java.io.Serializable;
+
+public abstract class Funcionario implements Serializable{
 	
 	public static final int HORISTA = 1;
 	public static final int MENSALISTA = 2;

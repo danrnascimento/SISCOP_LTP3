@@ -14,6 +14,7 @@ public class FuncionarioHorista extends Funcionario{
 		this.valorHora = valorHora;
 	}
 	
+	
 	public Double getValorHora(){
 		return this.valorHora;
 	}
