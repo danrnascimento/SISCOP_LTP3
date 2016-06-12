@@ -43,7 +43,7 @@ public class FuncionarioMensalista extends Funcionario implements Serializable{
 	
 	@Override
 	public String toString() {
-		return super.toString() + "\nSalario: " + this.salarioFixo;
+		return super.toString() + "\nSalario Mensal : " + this.salarioFixo;
 	}
 	
 	

@@ -51,7 +51,6 @@ public class Usuario {
 			switch(opcao){
 			case 0: 
 				System.out.println("Obrigado!");
-				System.exit(0);
 				break;
 			case 1:		
 				incluirFuncionario();
@@ -324,7 +323,7 @@ public class Usuario {
 		
 		for(Funcionario aux : Cadastro.listaFuncionarios.values()){
 			System.out.println("\n-----------------");
-			aux.toString();
+			System.out.println(aux.toString());
 			System.out.println("\n-----------------");
 		}
 		

@@ -44,7 +44,7 @@ public class FuncionarioHorista extends Funcionario implements Serializable{
 	
 	@Override
 	public String toString() {
-		return super.toString() + "\nSalario: " + this.valorHora;
+		return super.toString() + "\nValor Por Hora: " + this.valorHora;
 	}
 
 	
