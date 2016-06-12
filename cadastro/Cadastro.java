@@ -13,7 +13,7 @@ import erro.*;
 
 public class Cadastro {
 	
-	public static HashMap<String, Funcionario> listaFuncionarios = new HashMap<>();
+	public static HashMap<String, Funcionario> listaFuncionarios = new HashMap<String,Funcionario>();
 	
 	/**
 	 * Incluir Funcionario na Lista

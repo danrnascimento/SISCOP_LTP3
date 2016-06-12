@@ -1,9 +1,10 @@
 package dados;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class FuncionarioMensalista extends Funcionario{
+public class FuncionarioMensalista extends Funcionario implements Serializable{
 	
 	private Double salarioFixo;
 	private ArrayList<Horas> faltas = new ArrayList<>();

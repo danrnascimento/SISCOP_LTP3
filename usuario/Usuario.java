@@ -1,5 +1,7 @@
 package usuario;
-import java.util.Scanner;
+
+import java.io.*;
+import java.util.*;
 
 import utilitarios.Console;
 import utilitarios.LtpUtil;
@@ -11,7 +13,13 @@ public class Usuario {
 	static Scanner leia = new Scanner(System.in);
 	
 	public static void main(String argd[]) throws PagtoException{
+		
+		if (new File("Lista.obj").exists()) {
+			lerArquivo();
+		}
+		
 		menu();
+		gravarArquivo();
 	}
 		
 	/**
@@ -22,17 +30,14 @@ public class Usuario {
 		int opcao = 0;
 		do{
 			System.out.println("\n========| \tEscolha uma das opções abaixo:\t  |========\n"
-					+ "\n\tCLIENTES \n"
+					+ "\n\tFUNCIONARIO \n"
 					+ "\n\t 1 - INSERIR UM FUNCIONARIO"
-					+ "\n\tHORISTA \n"
-					+ "\n\t 6 - REGISTRAR HORA TRABALHADA"
-					+ "\n\tMENSALISTA \n"
-					+ "\n\t 10 - REGISTRAR FALTA"
-					+ "\n\tESTATISTICAS \n"
-					+ "\n\t 13 - CONSULTA ESTATISTICA DE CLIENTES POR PERIODO"
-					+ "\n\t 14 - CONSULTA ESTATISTICA DE PRODUTOS POR PERIODO"
-					+ "\n\t 12 - CONSULTA VENDAS POR PERIODO"
-					+ "\n\t 13 - CONSULTA ESTATISTICA DE VENDAS POR PERIODO"
+					+ "\n\n\tHORISTA \n"
+					+ "\n\t2 - REGISTRAR HORA TRABALHADA"
+					+ "\n\n\tMENSALISTA \n"
+					+ "\n\t 3 - REGISTRAR FALTA"
+					+ "\n\n\tTODOS \n"
+					+ "\n\t 4 - LISTAR TODOS"
 					+ "\n\n\t 0 - SAIR \n");
 
 			System.out.println("Entre com a opção desejada: ");
@@ -45,6 +50,8 @@ public class Usuario {
 
 			switch(opcao){
 			case 0: 
+				System.out.println("Obrigado!");
+				System.exit(0);
 				break;
 			case 1:		
 				incluirFuncionario();
@@ -54,6 +61,9 @@ public class Usuario {
 				break;
 			case 3:
 				registrarFaltaMensalista();
+				break;
+			case 4:
+				listarTodosFuncionarios();
 				break;
 			default:
 				System.out.println("Opção Inválida");
@@ -105,7 +115,7 @@ public class Usuario {
 			
 			do{
 				try {
-					System.out.println("Escolha um tipo de Participante" + "\n[1]Horista [2]Mensalista");
+					System.out.println("Escolha um tipo de Participante: " + " [1]Horista [2]Mensalista");
 					opcao = Integer.parseInt(leia.nextLine());
 					
 					if(opcao != 1 && opcao != 2){
@@ -189,7 +199,7 @@ public class Usuario {
 				System.out.println("Digite o cpf do Funcionario: ");
 				cpf = Console.readLine();
 				
-				if(cpf.isEmpty() || LtpUtil.validarCPF(cpf)){
+				if(cpf.isEmpty() || LtpUtil.validarCPF(cpf) == false){
 					System.out.println("Conteudo Inválido ou vazio");
 					error = true;
 				}
@@ -197,7 +207,7 @@ public class Usuario {
 				if(Cadastro.listaFuncionarios.get(cpf).getTipo() == 1){
 					funcionario = (FuncionarioHorista) Cadastro.listaFuncionarios.get(cpf);
 				}else{
-					System.out.println("Funcionario nao e ");
+					System.out.println("Funcionario não é Horista");
 				}
 			} catch (Exception e) {
 				System.out.println("Funcionario não existe ou CPF inválido");
@@ -255,7 +265,7 @@ public class Usuario {
 				System.out.println("Digite o cpf do Funcionario: ");
 				cpf = Console.readLine();
 				
-				if(cpf.isEmpty() || LtpUtil.validarCPF(cpf)){
+				if(cpf.isEmpty() || LtpUtil.validarCPF(cpf) == false){
 					System.out.println("Conteudo Inválido ou vazio");
 					error = true;
 				}
@@ -305,5 +315,44 @@ public class Usuario {
 		
 		
 	}
+	
+	/**
+	 * Listar todos os Funcionarios
+	 * @throws PagtoException
+	 */
+	public static void listarTodosFuncionarios() throws PagtoException{
+		
+		for(Funcionario aux : Cadastro.listaFuncionarios.values()){
+			System.out.println("\n-----------------");
+			aux.toString();
+			System.out.println("\n-----------------");
+		}
+		
+	}
+	
+	public static void lerArquivo() throws PagtoException{
+		try {
 
+			ObjectInputStream leitura = new ObjectInputStream(new FileInputStream("Lista.obj"));
+			Cadastro.listaFuncionarios = (HashMap<String, Funcionario>) leitura.readObject();
+			
+			leitura.close();
+			  
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public static void gravarArquivo() throws PagtoException{
+		
+		try {
+			
+			ObjectOutputStream gravar = new ObjectOutputStream(new FileOutputStream("Lista.obj"));
+			gravar.writeObject(Cadastro.listaFuncionarios);
+			gravar.close();
+			
+		} catch (Exception e) {
+			System.out.println("Rolou erro : " + e.getMessage());
+}
+	}
 }
